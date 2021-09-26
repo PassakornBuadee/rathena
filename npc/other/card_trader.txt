@@ -147,30 +147,30 @@ prontera,115,90,0	script	Putty	4_F_01,{
 			mes "[Putty]";
 			mes "These are the items that I have.";
 			next;
-			switch(select("1 Old Card Album - 50 Points","20 Yggdrasil Berry - 50 Points","10 Blue Potion - 20 Points","4 Honey - 1 Point","^777777Nerver mind.^000000")) {
+			switch(select("1 Old Card Album - 10 Points","20 Yggdrasil Berry - 5 Points","10 Blue Potion - 2 Points","4 Honey - 1 Point","^777777Nerver mind.^000000")) {
 				case 1:
-					if (.@points < 100) break;
+					if (.@points < 10) break;
 					mes "[Putty]";
 					mes "Great, I wish you the best";
 					mes "of luck with this album. I have a";
 					mes "very good feeling about this one!";
-					oversea_event9 = .@points - 100;
+					oversea_event9 = .@points - 10;
 					getitem 616,1;
 					close;
 				case 2:
-					if (.@points < 50) break;
+					if (.@points < 5) break;
 					mes "[Putty]";
 					mes "Oh, you must like adventures.";
 					mes "Here you go, just what you need!";
-					oversea_event9 = .@points - 50;
+					oversea_event9 = .@points - 5;
 					getitem 607,20;
 					close;
 				case 3:
-					if (.@points < 20) break;
+					if (.@points < 2) break;
 					mes "[Putty]";
 					mes "Blue Potions? Are you sure?";
 					mes "If that's what you want, here they are!";
-					oversea_event9 = .@points - 20;
+					oversea_event9 = .@points - 2;
 					getitem 505,10;
 					close;
 				case 4:
