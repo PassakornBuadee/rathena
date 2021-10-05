@@ -43,22 +43,26 @@
 		sc_start SC_IMPOSITIO,3600000,10;
 		specialeffect2 EF_GLORIA; // GLORIA
 		sc_start SC_GLORIA,3600000,10;
+		specialeffect2 EF_KYRIE; // KYRIE
+		sc_start SC_KYRIE,3600000,10;
+		specialeffect2 EF_ASSUMPTIO; //ASSUMPTIO
+		sc_start SC_ASSUMPTIO,3600000,10;
 		specialeffect2 EF_POEMBRAGI; // bragi
 		sc_start SC_POEMBRAGI,3600000,10;
-
+		
 		//Food
 		specialeffect2 EF_STRFOOD;
-		sc_start SC_STRFOOD,3600000,10;
+		sc_start SC_STRFOOD,3600000,15;
 		specialeffect2 EF_AGIFOOD;
-		sc_start SC_AGIFOOD,3600000,10;
+		sc_start SC_AGIFOOD,3600000,15;
 		specialeffect2 EF_VITFOOD;
-		sc_start SC_VITFOOD,3600000,10;
+		sc_start SC_VITFOOD,3600000,15;
 		specialeffect2 EF_INTFOOD;
-		sc_start SC_INTFOOD,3600000,10;
+		sc_start SC_INTFOOD,3600000,15;
 		specialeffect2 EF_DEXFOOD;
-		sc_start SC_DEXFOOD,3600000,10;
+		sc_start SC_DEXFOOD,3600000,15;
 		specialeffect2 EF_LUKFOOD;
-		sc_start SC_LUKFOOD,3600000,10;
+		sc_start SC_LUKFOOD,3600000,15;
 	}
 	if (.@Delay)
 		@HD = gettimetick(2) + .@Delay;
