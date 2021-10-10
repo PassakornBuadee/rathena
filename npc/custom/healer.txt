@@ -49,6 +49,16 @@
 		sc_start SC_ASSUMPTIO,3600000,10;
 		specialeffect2 EF_POEMBRAGI; // bragi
 		sc_start SC_POEMBRAGI,3600000,10;
+
+		specialeffect2 EF_CP_WEAPON; // CP_WEAPON
+		sc_start SC_CP_WEAPON,3600000,10;
+		specialeffect2 EF_CP_SHIELD; // CP_SHIELD
+		sc_start SC_CP_SHIELD,3600000,10;
+		specialeffect2 EF_CP_ARMOR; // CP_ARMOR
+		sc_start SC_CP_ARMOR,3600000,10;
+		specialeffect2 EF_CP_HELM; // CP_HELM
+		sc_start SC_CP_HELM,3600000,10;
+		
 		
 		//Food
 		specialeffect2 EF_STRFOOD;
