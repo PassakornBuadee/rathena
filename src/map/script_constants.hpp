@@ -515,6 +515,7 @@
 	export_parameter("StatusPoint",SP_STATUSPOINT);
 	export_parameter("BaseLevel",SP_BASELEVEL);
 	export_parameter("SkillPoint",SP_SKILLPOINT);
+	export_parameter("TraitPoint",SP_TRAITPOINT);
 	export_parameter("Class",SP_CLASS);
 	export_parameter("Upper",SP_UPPER);
 	export_parameter("Zeny",SP_ZENY);
@@ -532,6 +533,8 @@
 	export_parameter("MaxHp",SP_MAXHP);
 	export_parameter("Sp",SP_SP);
 	export_parameter("MaxSp",SP_MAXSP);
+	export_parameter("Ap",SP_AP);
+	export_parameter("MaxAp",SP_MAXAP);
 	export_parameter("BaseJob",SP_BASEJOB);
 	export_parameter("BaseClass",SP_BASECLASS);
 	export_parameter("killerrid",SP_KILLERRID);
@@ -559,6 +562,12 @@
 	export_constant2("bInt",SP_INT);
 	export_constant2("bDex",SP_DEX);
 	export_constant2("bLuk",SP_LUK);
+	export_constant2("bPow",SP_POW);
+	export_constant2("bSta",SP_STA);
+	export_constant2("bWis",SP_WIS);
+	export_constant2("bSpl",SP_SPL);
+	export_constant2("bCon",SP_CON);
+	export_constant2("bCrt",SP_CRT);
 	export_constant2("bAtk",SP_ATK1);
 	export_constant2("bAtk2",SP_ATK2);
 	export_constant2("bDef",SP_DEF1);
@@ -572,6 +581,13 @@
 	export_constant2("bAspd",SP_ASPD);
 	export_constant2("bFame",SP_FAME);
 	export_constant2("bUnbreakable",SP_UNBREAKABLE);
+
+	export_constant2("bPatk",SP_PATK);
+	export_constant2("bSmatk",SP_SMATK);
+	export_constant2("bHplus",SP_HPLUS);
+	export_constant2("bCrate",SP_CRATE);
+	export_constant2("bRes",SP_RES);
+	export_constant2("bMres",SP_MRES);
 
 	export_constant2("bAtkRange",SP_ATTACKRANGE);
 	export_constant2("bAtkEle",SP_ATKELE);
@@ -765,6 +781,8 @@
 	export_constant2("bCritDefRate",SP_CRIT_DEF_RATE);
 	export_constant2("bMagicSubDefEle", SP_MAGIC_SUBDEF_ELE);
 	export_constant2("bReduceDamageReturn",SP_REDUCE_DAMAGE_RETURN);
+	export_constant2("bAddItemSPHealRate", SP_ADD_ITEM_SPHEAL_RATE);
+	export_constant2("bAddItemGroupSPHealRate", SP_ADD_ITEMGROUP_SPHEAL_RATE);
 
 	/* equip indices */
 	export_constant(EQI_COMPOUND_ON);
@@ -1630,6 +1648,9 @@
 	export_constant(SC_PACKING_ENVELOPE9);
 	export_constant(SC_PACKING_ENVELOPE10);
 	export_constant(SC_SOULATTACK);
+	export_constant(SC_WIDEWEB);
+	export_constant(SC_BURNT);
+	export_constant(SC_CHILL);
 #ifdef RENEWAL
 	export_constant(SC_EXTREMITYFIST2);
 #endif
@@ -3845,6 +3866,7 @@
 	export_constant(AI_LEGION);
 	export_constant(AI_FAW);
 	export_constant(AI_GUILD);
+	export_constant(AI_WAVEMODE);
 
 	/* battle flags */
 	export_constant(BF_NONE);
@@ -4133,6 +4155,7 @@
 	export_constant(W_DOUBLE_DA);
 	export_constant(W_DOUBLE_SA);
 	export_constant(MAX_WEAPON_TYPE_ALL);
+	export_constant(W_SHIELD);
 
 	/* ammunition types */
 	/* Send deprecation notice and temporarily replace with new constant value. */
@@ -4378,6 +4401,7 @@
 	export_constant(UMOB_ROBE);
 	export_constant(UMOB_BODY2);
 	export_constant(UMOB_GROUP_ID);
+	export_constant(UMOB_IGNORE_CELL_STACK_LIMIT);
 
 	/* unit control - homunculus */
 	export_constant(UHOM_SIZE);
@@ -5243,6 +5267,7 @@
 	export_constant(IG_XMAS_PACKAGE_14);
 	export_constant(IG_EASTER_EGG);
 	export_constant(IG_PITAPAT_BOX);
+	export_constant(IG_HAPPY_BOX_J);
 
 	/* unit stop walking */
 	export_constant(USW_NONE);
@@ -8148,6 +8173,7 @@
 	export_constant(ITEMJ_ALL_UPPER);
 	export_constant(ITEMJ_ALL_BABY);
 	export_constant(ITEMJ_ALL_THIRD);
+	export_constant(ITEMJ_FOURTH);
 
 	/* item drop effects */
 	export_constant(DROPEFFECT_NONE);
@@ -8197,6 +8223,26 @@
 	export_constant(REFINE_TYPE_WEAPON);
 	export_constant(REFINE_TYPE_SHADOW_ARMOR);
 	export_constant(REFINE_TYPE_SHADOW_WEAPON);
+
+	/* autospell flags */
+	export_constant(AUTOSPELL_FORCE_SELF);
+	export_constant(AUTOSPELL_FORCE_TARGET);
+	export_constant(AUTOSPELL_FORCE_RANDOM_LEVEL);
+	export_constant(AUTOSPELL_FORCE_ALL);
+
+	/* stats */
+	export_constant(PARAM_STR);
+	export_constant(PARAM_AGI);
+	export_constant(PARAM_VIT);
+	export_constant(PARAM_INT);
+	export_constant(PARAM_DEX);
+	export_constant(PARAM_LUK);
+	export_constant(PARAM_POW);
+	export_constant(PARAM_STA);
+	export_constant(PARAM_WIS);
+	export_constant(PARAM_SPL);
+	export_constant(PARAM_CON);
+	export_constant(PARAM_CRT);
 
 	#undef export_constant
 	#undef export_constant2
