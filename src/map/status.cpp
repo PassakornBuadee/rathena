@@ -1038,8 +1038,10 @@ void initChangeTables(void)
 	set_sc( NPC_WIDEHELLDIGNITY	, SC_HELLPOWER		, EFST_HELLPOWER		, SCB_NONE );
 	set_sc( NPC_INVINCIBLE		, SC_INVINCIBLE		, EFST_INVINCIBLE		, SCB_SPEED );
 	set_sc( NPC_INVINCIBLEOFF	, SC_INVINCIBLEOFF	, EFST_BLANK		, SCB_SPEED );
+	add_sc( NPC_MILLENNIUMSHIELD	, SC_MILLENNIUMSHIELD		  );
 	set_sc( NPC_COMET			, SC_BURNING		, EFST_BURNT		, SCB_MDEF );
 	set_sc_with_vfx( NPC_MAXPAIN	,	 SC_MAXPAIN	, EFST_MAXPAIN	, SCB_NONE );
+	add_sc( NPC_STORMGUST2		, SC_FREEZE		);
 	add_sc( NPC_JACKFROST        , SC_FREEZE		  );
 	add_sc( NPC_ELECTRICWALK	, SC_PROPERTYWALK		);
 	add_sc( NPC_FIREWALK		, SC_PROPERTYWALK		);
@@ -1047,6 +1049,10 @@ void initChangeTables(void)
 	set_sc( NPC_HALLUCINATIONWALK	, SC_NPC_HALLUCINATIONWALK	, EFST_NPC_HALLUCINATIONWALK	, SCB_FLEE );
 	set_sc( NPC_WIDEWEB           , SC_WIDEWEB           , EFST_WIDEWEB               , SCB_FLEE );
 	set_sc_with_vfx( NPC_FIRESTORM, SC_BURNT             , EFST_BURNT                 , SCB_NONE );
+	add_sc( NPC_SR_CURSEDCIRCLE	, SC_CURSEDCIRCLE_TARGET		);
+	add_sc( NPC_MAGMA_ERUPTION	, SC_STUN			);
+	// add_sc( NPC_MAGMA_ERUPTION_DOTDAMAGE, SC_BURNING	);	// No data. Hidden status ?
+	set_sc( NPC_MANDRAGORA			, SC_MANDRAGORA		, EFST_MANDRAGORA			, SCB_INT );
 
 	set_sc( CASH_BLESSING		, SC_BLESSING		, EFST_BLESSING		, SCB_STR|SCB_INT|SCB_DEX );
 	set_sc( CASH_INCAGI		, SC_INCREASEAGI	, EFST_INC_AGI, SCB_AGI|SCB_SPEED );
@@ -2900,7 +2906,7 @@ bool status_check_skilluse(struct block_list *src, struct block_list *target, ui
 			return false;
 		if(!skill_id && tsc->data[SC_TRICKDEAD])
 			return false;
-		if((skill_id == WZ_STORMGUST || skill_id == WZ_FROSTNOVA || skill_id == NJ_HYOUSYOURAKU)
+		if((skill_id == WZ_STORMGUST || skill_id == WZ_FROSTNOVA || skill_id == NJ_HYOUSYOURAKU || skill_id == NPC_STORMGUST2)
 			&& tsc->data[SC_FREEZE])
 			return false;
 		if(skill_id == PR_LEXAETERNA && (tsc->data[SC_FREEZE] || (tsc->data[SC_STONE] && tsc->opt1 == OPT1_STONE)))
@@ -5258,10 +5264,10 @@ int status_calc_homunculus_(struct homun_data *hd, enum e_status_calc_opt opt)
  * @param opt: Whether it is first calc or not (0 on status change)
  * @return 0
  */
-int status_calc_elemental_(struct elemental_data *ed, enum e_status_calc_opt opt)
+int status_calc_elemental_(s_elemental_data *ed, e_status_calc_opt opt)
 {
 	struct status_data *status = &ed->base_status;
-	struct s_elemental *ele = &ed->elemental;
+	s_elemental *ele = &ed->elemental;
 	struct map_session_data *sd = ed->master;
 
 	if( !sd )
@@ -8449,7 +8455,7 @@ const char* status_get_name(struct block_list *bl)
 		case BL_HOM:	return ((TBL_HOM*)bl)->homunculus.name;
 		//case BL_MER: // They only have database names which are global, not specific to GID.
 		case BL_NPC:	return ((TBL_NPC*)bl)->name;
-		//case BL_ELEM: // They only have database names which are global, not specific to GID.
+		case BL_ELEM:	return ((TBL_ELEM *)bl)->db->name.c_str(); // They only have database names which are global, not specific to GID.
 	}
 	return "Unknown";
 }
@@ -8809,7 +8815,7 @@ void status_set_viewdata(struct block_list *bl, int class_)
 		vd = hom_get_viewdata(class_);
 	else if (mercenary_db(class_))
 		vd = mercenary_get_viewdata(class_);
-	else if (elemental_class(class_))
+	else if (elemental_db.exists(class_))
 		vd = elemental_get_viewdata(class_);
 	else
 		vd = NULL;
@@ -8946,7 +8952,7 @@ void status_set_viewdata(struct block_list *bl, int class_)
 		break;
 	case BL_ELEM:
 		{
-			struct elemental_data *ed = (struct elemental_data*)bl;
+			s_elemental_data *ed = (s_elemental_data*)bl;
 			if (vd)
 				ed->vd = vd;
 			else
