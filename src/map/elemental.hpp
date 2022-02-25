@@ -26,8 +26,17 @@ enum e_elemental_skillmode : uint8 {
 	EL_SKILLMODE_AGGRESSIVE = 0x4,
 };
 
+#if __cplusplus < 201402L
+namespace std {
+	template <> struct hash<e_elemental_skillmode> {
+		size_t operator() (const e_elemental_skillmode& t) const { return size_t(t); }
+	};
+}
+#endif
+
 ///Enum of Elemental ID
 enum elemental_elementalid  : uint16 {
+	// Sorcerer's Elementals
 	ELEMENTALID_AGNI_S = 2114,
 	ELEMENTALID_AGNI_M,
 	ELEMENTALID_AGNI_L,
@@ -40,6 +49,13 @@ enum elemental_elementalid  : uint16 {
 	ELEMENTALID_TERA_S,
 	ELEMENTALID_TERA_M,
 	ELEMENTALID_TERA_L,
+
+	// Elemental Master's Elementals
+	ELEMENTALID_DILUVIO = 20816,
+	ELEMENTALID_ARDOR,
+	ELEMENTALID_PROCELLA,
+	ELEMENTALID_TERREMOTUS,
+	ELEMENTALID_SERPENS,
 };
 
 struct s_elemental_skill {
@@ -83,8 +99,8 @@ public:
 
 	}
 
-	const std::string getDefaultLocation();
-	uint64 parseBodyNode(const YAML::Node& node);
+	const std::string getDefaultLocation() override;
+	uint64 parseBodyNode(const YAML::Node& node) override;
 };
 
 extern ElementalDatabase elemental_db;
@@ -96,7 +112,7 @@ int elemental_data_received(s_elemental *ele, bool flag);
 int elemental_save(s_elemental_data *ed);
 
 int elemental_change_mode_ack(s_elemental_data *ed, e_elemental_skillmode skill_mode);
-int elemental_change_mode(s_elemental_data *ed, e_mode mode);
+int elemental_change_mode(s_elemental_data *ed, int mode);
 
 void elemental_heal(s_elemental_data *ed, int hp, int sp);
 int elemental_dead(s_elemental_data *ed);
