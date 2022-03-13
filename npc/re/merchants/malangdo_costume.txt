@@ -1114,7 +1114,7 @@ mal_in01,22,113,3	script	Aver De Dosh#cos_ect	4_WHITETIGER,{
 			1000222, 310191,	// GuillotineCrossStone_Top2	GuillotineCross_Top2
 			1000297, 310258,	// RuneknightStone_Top2	Runeknight_Top2
 			1000301, 310262,	// GeneticStone_Top2	Genetic_Top2
-			1000305, 310266;	// WanderMinsStone_Top2	WandMinst_Top2
+			1000305, 310266,	// WanderMinsStone_Top2	WandMinst_Top2
 			25304, 29359,	// Critical_Stone_Top	Fatal_Top
 			1000222, 310189; // Ass X II top
 		break;
