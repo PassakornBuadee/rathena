@@ -6135,6 +6135,7 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 				skill_attack(BF_WEAPON,src,src,bl,skill_id,skill_lv,tick,flag);
 				if( rnd()%100 < 4 * skill_lv )
 					skill_castend_damage_id(src,bl,GC_CROSSIMPACT,skill_lv,tick,flag);
+					skill_castend_damage_id(src, bl, GC_MAGIC_CROSSIMPACT, skill_lv, tick, flag);
 			}
 
 		}
@@ -6153,6 +6154,18 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 			skill_blown(src, src, 1, (map_calc_dir(bl, src->x, src->y) + 4) % 8, BLOWN_IGNORE_NO_KNOCKBACK); // Target position is actually one cell next to the target
 			skill_attack(BF_WEAPON, src, src, bl, skill_id, skill_lv, tick, flag);
 		} else {
+			if (sd)
+				clif_skill_fail(sd, skill_id, USESKILL_FAIL, 0);
+		}
+		break;
+
+	//MaTaO-RO Custom skills
+	case GC_MAGIC_CROSSIMPACT:
+		if (skill_check_unit_movepos(0, src, bl->x, bl->y, 1, 1)) {
+			skill_blown(src, src, 1, (map_calc_dir(bl, src->x, src->y) + 4) % 8, BLOWN_IGNORE_NO_KNOCKBACK); // Target position is actually one cell next to the target
+			skill_attack(BF_WEAPON, src, src, bl, skill_id, skill_lv, tick, flag);
+		}
+		else {
 			if (sd)
 				clif_skill_fail(sd, skill_id, USESKILL_FAIL, 0);
 		}

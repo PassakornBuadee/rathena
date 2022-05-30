@@ -92297,6 +92297,47 @@ Body:
 #    AegisName: DELETER2_H
 #  - Id: 20376
 #    AegisName: EXPLOSION_H
+#    Name: Rigid Explosion
+#     Level: 171
+#     Hp: 1166287
+#     BaseExp: 106026
+#     JobExp: 74218
+#     Attack: 1781
+#     Attack2: 1392
+#     Defense: 230
+#     MagicDefense: 54
+#     Str: 89
+#     Agi: 117
+#     Vit: 39
+#     Int: 136
+#     Dex: 97
+#     Luk: 69
+#     AttackRange: 1
+#     SkillRange: 10
+#     ChaseRange: 12
+#     Size: Small
+#     Race: Brute
+#     Element: Neutral
+#     ElementLevel: 2
+#     WalkSpeed: 200
+#     AttackDelay: 936
+#     AttackMotion: 1020
+#     DamageMotion: 420
+#     Ai: 19
+#     Drops:
+#       - Item: Rune_Of_Darkness
+#         Rate: 2500
+#       - Item: Piece_Of_Darkness
+#         Rate: 2000
+#       - Item: Tooth_Of_
+#         Rate: 1600
+#       - Item: Tendon
+#         Rate: 2000
+#       - Item: EP17_1_EVT39
+#         Rate: 10
+#       - Item: Mt_Caput_Card
+#         Rate: 1
+#         StealProtected: true
 #  - Id: 20377
 #    AegisName: KAHO_H
 #  - Id: 20378
