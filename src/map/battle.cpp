@@ -2450,7 +2450,7 @@ static int battle_range_type(struct block_list *src, struct block_list *target, 
 			return BF_LONG;
 		case NJ_KIRIKAGE: // Cast range mimics NJ_SHADOWJUMP but damage is considered melee
 		case GC_CROSSIMPACT: // Cast range is 7 cells and player jumps to target but skill is considered melee
-		case GC_MAGIC_CROSSIMPACT: //MaTaO-RO Custom skill duplicated from GC_CROSSIMPACT but "Magic" attack type
+		//case GC_MAGIC_CROSSIMPACT: //MaTaO-RO Custom skill duplicated from GC_CROSSIMPACT but "Magic" attack type
 		case DK_SERVANT_W_PHANTOM: // 9 cell cast range.
 		case SHC_SAVAGE_IMPACT: // 7 cell cast range.
 		case SHC_FATAL_SHADOW_CROW: // 9 cell cast range.
@@ -2802,7 +2802,7 @@ static bool is_attack_critical(struct Damage* wd, struct block_list *src, struct
 #endif
 			case LG_CANNONSPEAR:
 			case GC_CROSSIMPACT:
-			case GC_MAGIC_CROSSIMPACT:
+			//case GC_MAGIC_CROSSIMPACT:
 			case SHC_SAVAGE_IMPACT:
 			case SHC_ETERNAL_SLASH:
 			case SHC_IMPACT_CRATER:
@@ -4496,10 +4496,10 @@ static int battle_calc_attack_skill_ratio(struct Damage* wd, struct block_list *
 			RE_LVL_DMOD(100);
 			break;
 		//MaTaO-RO custom skill
-		case GC_MAGIC_CROSSIMPACT:
+		/*case GC_MAGIC_CROSSIMPACT:
 			skillratio += -100 + 1400 + 150 * skill_lv;
 			RE_LVL_DMOD(100);
-			break;
+			break;*/
 		case GC_COUNTERSLASH:
 			//ATK [{(Skill Level x 150) + 300} x Caster's Base Level / 120]% + ATK [(AGI x 2) + (Caster's Job Level x 4)]%
 			skillratio += -100 + 300 + 150 * skill_lv;
@@ -6340,6 +6340,7 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src, struct bl
 	struct status_data *tstatus = status_get_status_data(target);
 	int right_element, left_element;
 	bool infdef = false;
+	bool isHitting = true;
 
 	memset(&wd,0,sizeof(wd));
 
@@ -6386,10 +6387,14 @@ static struct Damage battle_calc_weapon_attack(struct block_list *src, struct bl
 	}
 
 	std::bitset<NK_MAX> nk = battle_skill_get_damage_properties(skill_id, wd.miscflag);
-	infdef = is_infinite_defense(target, wd.flag);
-	if (skill_id == GC_MAGIC_CROSSIMPACT) infdef = false;
+
+	//By pass all inf def MaTaO Custom
+	//infdef = is_infinite_defense(target, wd.flag);
+
+	isHitting = is_attack_hitting(&wd, src, target, skill_id, skill_lv, true);
+
 	// check if we're landing a hit
-	if(!is_attack_hitting(&wd, src, target, skill_id, skill_lv, true))
+	if(!isHitting)
 		wd.dmg_lv = ATK_FLEE;
 	else if(!infdef) { //no need for math against plants
 		int64 ratio = 0;
