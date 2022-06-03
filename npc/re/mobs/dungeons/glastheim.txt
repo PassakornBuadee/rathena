@@ -202,3 +202,18 @@ gl_chyard_,0,0	monster	Wraith Dead	1291,31,0,0,0
 gl_chyard_,0,0	monster	Evil Druid (Nightmare)	2480,22,60000,0,0
 gl_chyard_,0,0	monster	Mimic (Nightmare)	2479,34,60000,0,0
 gl_chyard_,0,0,0,0	boss_monster	Dark Lord	1272,1,3600000,600000,1
+
+//==================================================
+// gl_cas01_ - Abyss Glast Heim 
+//==================================================
+gl_cas01_,0,0	monster	Contaminated Raydric	20367,15,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Contaminated Raydric Archer	20368,16,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Frozen Gargoyle	20369,7,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Contaminated Sting	20370,7,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Prison Breaker	20371,7,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Ice Ghost	20379,7,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Flame Ghost	20380,7,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	monster	Contaminated Wanderer	20420,5,5000,5000,"#AbyssGlast_Drop::OnAGHMobDead"
+
+gl_cas01_,0,0	boss_monster	Contaminated Spider Queen	20421,1,3600000,600000,"#AbyssGlast_Drop::OnAGHMobDead"
+gl_cas01_,0,0	boss_monster	Contaminated Dark Lord	20422,1,3600000,600000,"#AbyssGlast_Drop::OnAGHMobDead"

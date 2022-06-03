@@ -1,0 +1,154 @@
+//===== rAthena Script =======================================
+//= Magma Dungeon 3 Daily Quest - Lily Blanc
+//===== By ===================================================
+//= MaTaO-RO
+//===== Version ==============================================
+//= 1.0 - Initial Version (Duplicate from Mage Nillem#glast)
+
+yuno_fild03,38,146,4	script	Lily Blanc#juno	16,{
+    mes .n$;
+    if(BaseLevel < 175){
+        mes "What are you doing here?";
+        mes "I'm looking for a strong adventurer to fill my curiosity!";
+        next;
+        mes .n$;
+        mes "Come back when you're at least 175.";
+        close;
+    }
+    
+    mes "Please select your quests.";
+    next;
+
+    .@q = select("Abnormally Evolved Deleter.:Defeat Real Nightmare.:Density Verification.:The Small Things That Rustle.:I'm done.") - 1;
+	mes .n$;
+	if(.@q == 4) {
+		mes "Oh, that's alright.";
+		mes "If you're tired, you should rest.";
+		mes "See you tomorrow.";
+		mes "Don't overdo it ~ <3";
+		close;
+	}
+	switch(checkquest(.magma3_delay[.@q],PLAYTIME)) {
+		case 0:
+		case 1:
+		mes "You are still exhausted from the past discoveries. Kindly rest first..";
+		close;
+	
+		case 2:
+		completequest .magma3_delay[.@q];
+		erasequest .magma3_delay[.@q];
+		mes "You are free to share you discoveries with me again ~ <3.";
+		close;
+	}
+	switch(checkquest(.magma3_quest[.@q],HUNTING)) {
+		case -1:
+		mes "Beyond the gap, there are empty-like entities.";
+		switch(.@q) {
+
+			case 0: // Quest: Abnormally Evolved Deleter
+			mes "^0000FFRigid Deleter (Ground)^000000 and ^0000FFRigid Deleter (Sky)^000000...";
+			mes "It's about their contamination...";
+			mes "how does it affect you?";
+			next;
+			mes .n$;
+			mes "^0000FF15 Rigid Deleter (Ground),";
+			mes "15 Rigid Deleter (Sky).^000000";
+			break;
+				
+			case 1: // Quest: Defeat Real Nightmare
+			mes "^0000FFRigid Nightmare Terror^000000...";
+			next;
+			mes .n$;
+			mes "^0000FF10 Rigid Nightmare Terror^000000";
+			break;
+					
+			case 2: // Quest: Density Verification
+			mes "^0000FFRigid Lava Golem^000000...";
+			mes "They look totally different in this dimension.";
+			next;
+			mes .n$;
+			mes "^0000FF10 Rigid Lava Golem^000000";
+			break;
+
+            case 3: // Quest: The Small Things That Rustle.
+			mes "^0000FFRigid Blazer^000000 and ^0000FFRigid Explosion^000000...";
+			mes "They look totally different in this dimension.";
+			next;
+			mes .n$;
+			mes "^0000FF10 Rigid Blazer,";
+			mes "10 Rigid Explosion.^000000";
+			break;
+		}
+		mes "When you come back, this genius wizard will inspect your results.";
+		mes "How about it, darling?";
+		next;
+		if(select("That's not too difficult.:I refuse") == 2) {
+			mes .n$;
+			mes "If you are busy, it can't be helped.";
+			mes "Help us when you have time, silly ~ <3";
+			close;
+		}
+		mes .n$;
+		mes "Let's do it.";
+		mes "Beyond this point, it's hard to know the outcome.";
+		mes "If you need to escape the gap, talk to me at the entrance ~ <3";
+		setquest .magma3_quest[.@q];
+		break;
+		
+		case 0:
+		case 1:
+		switch(.@q) {
+			case 0:
+			mes "You're not finished yet on the discovery.";
+			mes "Do you thing they're influenced by";
+			mes "the emptiness?";
+			close;
+			
+			case 1:
+			mes "You're not finished yet on the discovery.";
+			mes "It's not a freezing";
+			mes "temperature, but if you're";
+			mes "freezing, come see me.";
+			close;
+			
+			case 2:
+			mes "You're not finished yet on the discovery.";
+			mes "I don't think they";
+			mes" are actually on the other side of";
+			mes "the mirror, but they are on another dimensional gap..."; 
+			close;
+
+            case 3:
+			mes "You're not finished yet on the discovery.";
+			mes "I don't think they";
+			mes" are actually on the other side of";
+			mes "the mirror, but they are on another dimensional gap..."; 
+			close;
+		}
+		case 2:
+		switch(.@q) {
+			case 0:
+			case 1:
+			case 2:
+            case 3:
+			mes "Oohh! Well done, that's exactly what I'm looking for.";
+			mes "Very interesting...";
+			mes "Oh yeah, here is your reward for your hard work.";
+			mes "See you again next time ~ <3";
+			getexp .magma3_bexp[.@q],.magma3_jexp[.@q];
+			completequest .magma3_quest[.@q];
+			erasequest .magma3_quest[.@q];
+			setquest .magma3_delay[.@q];
+			close;
+		}
+	}
+	close;
+
+    OnInit:
+    .n$ = "[Lily Blanc]";
+    setarray .magma3_quest[0],8550,8553,8556,8559;
+    setarray .magma3_delay[0],8551,8554,8557,8560;
+    setarray .magma3_bexp[0],4852278,1661868,1590396,3251388;
+    setarray .magma3_jexp[0],3396600,1163304,1113275,2275966;
+    end;
+}
