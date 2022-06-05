@@ -1132,6 +1132,10 @@ struct map_session_data * map_nick2sd(const char* nick, bool allow_partial);
 struct mob_data * map_getmob_boss(int16 m);
 struct mob_data * map_id2boss(int id);
 
+// improve convex
+std::vector <mob_data*> map_getmob_bosses(int16 m);
+std::vector <mob_data*> map_id2bosses(std::vector<int> ids);
+
 // reload config file looking only for npcs
 void map_reloadnpc(bool clear);
 

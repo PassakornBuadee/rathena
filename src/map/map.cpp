@@ -2298,6 +2298,7 @@ bool map_blid_exists( int id ) {
 /*==========================================
  * Convex Mirror
  *------------------------------------------*/
+
 struct mob_data * map_getmob_boss(int16 m)
 {
 	DBIterator* iter;
@@ -2322,6 +2323,38 @@ struct mob_data * map_id2boss(int id)
 {
 	if (id <= 0) return NULL;
 	return (struct mob_data*)idb_get(bossid_db,id);
+}
+
+std::vector <mob_data*> map_getmob_bosses(int16 m)
+{
+	DBIterator* iter;
+	struct mob_data* md = NULL;
+	std::vector<mob_data*> mobs;
+	bool found = false;
+	int i = 0;
+	iter = db_iterator(bossid_db);
+	for (md = (struct mob_data*)dbi_first(iter); dbi_exists(iter); md = (struct mob_data*)dbi_next(iter))
+	{
+		if (md->bl.m == m)
+		{
+			i++;
+			mobs.resize(i);
+			mobs.at(i-1) = md;
+		}
+	}
+	dbi_destroy(iter);
+	return mobs;
+}
+
+std::vector <mob_data*>  map_id2bosses(std::vector<int> ids)
+{
+	if (ids.size() <= 0) return {};
+	std::vector <mob_data*> mobs (ids.size());
+	for (int i = 0; i < ids.size(); i++) {
+
+		mobs.at(i) = (struct mob_data*)idb_get(bossid_db, ids.at(i));
+	}
+	return mobs;
 }
 
 /// Applies func to all the players in the db.

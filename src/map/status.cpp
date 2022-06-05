@@ -9215,6 +9215,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	int undead_flag, tick_time = 0;
 	bool sc_isnew = true;
 	std::shared_ptr<s_status_change_db> scdb = status_db.find(type);
+	std::vector <int> vals;
 
 	nullpo_ret(bl);
 	sc = status_get_sc(bl);
@@ -10201,15 +10202,36 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 				val4 = 1;
 			tick_time = val2 * 1000; // [GodLesZ] tick time
 			break;
-		case SC_BOSSMAPINFO:
-			if( sd != NULL ) {
-				struct mob_data *boss_md = map_getmob_boss(bl->m); // Search for Boss on this Map
+		//case SC_BOSSMAPINFO:
+		//	if( sd != NULL ) {
+		//		struct mob_data *boss_md = map_getmob_boss(bl->m); // Search for Boss on this Map
 
-				if( boss_md == NULL ) { // No MVP on this map
+		//		if( boss_md == NULL ) { // No MVP on this map
+		//			clif_bossmapinfo(sd, NULL, BOSS_INFO_NOT);
+		//			return 0;
+		//		}
+		//		val1 = boss_md->bl.id;
+		//		tick_time = 1000; // [GodLesZ] tick time
+		//		val4 = tick / tick_time;
+		//	}
+		//	break;
+		case SC_BOSSMAPINFO:
+			if (sd != NULL) {
+				std::vector <mob_data*> boss_md = map_getmob_bosses(bl->m); // Search for Boss on this Map
+
+				if (boss_md.size() == 0) { // No MVP on this map
 					clif_bossmapinfo(sd, NULL, BOSS_INFO_NOT);
 					return 0;
 				}
-				val1 = boss_md->bl.id;
+				val1 = boss_md.at(0)->bl.id; //
+
+				vals.resize(boss_md.size());
+
+				for (int i = 0; i < boss_md.size(); i++) {
+					
+					vals.at(i) = boss_md.at(i)->bl.id;
+				}
+
 				tick_time = 1000; // [GodLesZ] tick time
 				val4 = tick / tick_time;
 			}
@@ -12123,6 +12145,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	sce->val2 = val2;
 	sce->val3 = val3;
 	sce->val4 = val4;
+	sce->vals = vals;
 	if (tick >= 0)
 		sce->timer = add_timer(gettick() + tick, status_change_timer, bl->id, type);
 	else
@@ -12182,9 +12205,16 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 					ud->state.running = unit_run(bl, NULL, SC_RUN);
 			}
 			break;
+		//case SC_BOSSMAPINFO:
+		//	if (sd)
+		//		clif_bossmapinfo(sd, map_id2boss(sce->val1), BOSS_INFO_ALIVE_WITHMSG); // First Message
+		//	break;
 		case SC_BOSSMAPINFO:
-			if (sd)
-				clif_bossmapinfo(sd, map_id2boss(sce->val1), BOSS_INFO_ALIVE_WITHMSG); // First Message
+			if (sd) {
+				for (int i = 0; i < sce->vals.size(); i++) {
+					clif_bossmapinfo(sd, map_id2boss(sce->vals.at(i)), BOSS_INFO_ALIVE_WITHMSG); // First Message
+				}
+			}
 			break;
 		case SC_FULL_THROTTLE:
 		case SC_MERC_HPUP:
@@ -13291,19 +13321,43 @@ TIMER_FUNC(status_change_timer){
 		}
 		break;
 
-	case SC_BOSSMAPINFO:
-		if( sd && --(sce->val4) >= 0 ) {
-			struct mob_data *boss_md = map_id2boss(sce->val1);
+	//case SC_BOSSMAPINFO:
+	//	if( sd && --(sce->val4) >= 0 ) {
+	//		struct mob_data *boss_md = map_id2boss(sce->val1);
 
-			if (boss_md) {
-				if (sd->bl.m != boss_md->bl.m) // Not on same map anymore
-					return 0;
-				else if (boss_md->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
-					sce->val2 = 0;
-					clif_bossmapinfo(sd, boss_md, BOSS_INFO_ALIVE);
-				} else if (boss_md->spawn_timer != INVALID_TIMER && !sce->val2) { // Boss is dead
-					sce->val2 = 1;
-					clif_bossmapinfo(sd, boss_md, BOSS_INFO_DEAD);
+	//		if (boss_md) {
+	//			if (sd->bl.m != boss_md->bl.m) // Not on same map anymore
+	//				return 0;
+	//			else if (boss_md->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
+	//				sce->val2 = 0;
+	//				clif_bossmapinfo(sd, boss_md, BOSS_INFO_ALIVE);
+	//			} else if (boss_md->spawn_timer != INVALID_TIMER && !sce->val2) { // Boss is dead
+	//				sce->val2 = 1;
+	//				clif_bossmapinfo(sd, boss_md, BOSS_INFO_DEAD);
+	//			}
+	//		}
+	//		sc_timer_next(1000 + tick);
+	//		return 0;
+	//	}
+	//	break;
+	case SC_BOSSMAPINFO:
+		if (sd && --(sce->val4) >= 0) {
+
+			std::vector <mob_data*> boss_md = map_id2bosses(sce->vals);
+
+			if (boss_md.size() > 0) {
+				#pragma loop(hint_parallel(2))
+				for (int i = 0; i < boss_md.size(); i++) {
+					if (sd->bl.m != boss_md.at(i)->bl.m) // Not on same map anymore
+						return 0;
+					else if (boss_md.at(i)->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
+						sce->val2 = 0;
+						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_ALIVE);
+					}
+					else if (boss_md.at(i)->spawn_timer != INVALID_TIMER && !sce->val2) { // Boss is dead
+						sce->val2 = 1;
+						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_DEAD);
+					}
 				}
 			}
 			sc_timer_next(1000 + tick);
