@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string>
+#include <algorithm>
 
 #include "../common/cbasetypes.hpp"
 #include "../common/ers.hpp"
@@ -10226,7 +10227,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 				val1 = boss_md.at(0)->bl.id; //
 
 				vals.resize(boss_md.size());
-
+				
 				for (int i = 0; i < boss_md.size(); i++) {
 					
 					vals.at(i) = boss_md.at(i)->bl.id;
@@ -12146,6 +12147,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	sce->val3 = val3;
 	sce->val4 = val4;
 	sce->vals = vals;
+	sce->flags.resize(vals.size());
 	if (tick >= 0)
 		sce->timer = add_timer(gettick() + tick, status_change_timer, bl->id, type);
 	else
@@ -13346,17 +13348,24 @@ TIMER_FUNC(status_change_timer){
 			std::vector <mob_data*> boss_md = map_id2bosses(sce->vals);
 
 			if (boss_md.size() > 0) {
-				#pragma loop(hint_parallel(2))
+
+				//Sorting alive boss go last if boss > 1
+				if (boss_md.size() > 1 && boss_md.at(boss_md.size()-1)->bl.prev == NULL)
+				{
+					std::reverse(boss_md.begin(), boss_md.end());
+					std::reverse(sce->flags.begin(), sce->flags.end());
+				}
 				for (int i = 0; i < boss_md.size(); i++) {
 					if (sd->bl.m != boss_md.at(i)->bl.m) // Not on same map anymore
 						return 0;
-					else if (boss_md.at(i)->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
-						sce->val2 = 0;
-						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_ALIVE);
-					}
-					else if (boss_md.at(i)->spawn_timer != INVALID_TIMER && !sce->val2) { // Boss is dead
-						sce->val2 = 1;
+					else if (boss_md.at(i)->spawn_timer != INVALID_TIMER && !sce->flags.at(i)) { // Boss is dead
+						//sce->val2 = 1;
+						sce->flags.at(i) = 1;
 						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_DEAD);
+					}
+					else if (boss_md.at(i)->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
+						sce->flags.at(i) = 0;
+						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_ALIVE);
 					}
 				}
 			}

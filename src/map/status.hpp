@@ -3045,7 +3045,7 @@ struct sc_display_entry {
 struct status_change_entry {
 	int timer;
 	int val1,val2,val3,val4;
-	std::vector<int> vals;
+	std::vector<int> vals, flags;
 };
 
 ///Status change
