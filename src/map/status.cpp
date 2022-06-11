@@ -13778,14 +13778,14 @@ TIMER_FUNC(status_change_timer){
 				for (int i = 0; i < boss_md.size(); i++) {
 					if (sd->bl.m != boss_md.at(i)->bl.m) // Not on same map anymore
 						return 0;
+					else if (boss_md.at(i)->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
+						sce->flags.at(i) = 0;
+						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_ALIVE);
+					}
 					else if (boss_md.at(i)->spawn_timer != INVALID_TIMER && !sce->flags.at(i)) { // Boss is dead
 						//sce->val2 = 1;
 						sce->flags.at(i) = 1;
 						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_DEAD);
-					}
-					else if (boss_md.at(i)->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
-						sce->flags.at(i) = 0;
-						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_ALIVE);
 					}
 				}
 			}
