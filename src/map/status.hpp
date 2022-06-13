@@ -27,6 +27,10 @@ struct s_elemental_data;
 struct npc_data;
 struct status_change;
 
+struct boss_info {
+	int dead_flag;
+	int mob_id;
+};
 /**
  * Max Refine available to your server
  **/
@@ -3100,7 +3104,7 @@ struct sc_display_entry {
 struct status_change_entry {
 	int timer;
 	int val1,val2,val3,val4;
-	std::vector<int> vals, flags;
+	std::vector<boss_info> boss_info;
 };
 
 ///Status change

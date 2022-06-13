@@ -11785,7 +11785,7 @@ rebel_in,108,36,3	script	Master#16nego02	4_F_HUWOMAN,{
 			mes "Since there are Grudges, I know it's not easy. But we will count on you.";
 			close;
 		}
-		if (checkquest(14610,HUNTING) < 3) {
+		if (checkquest(14610,HUNTING) != 2) {
 			mes "[Master]";
 			mes "You've brought enough broken guns. But we cannot use them.";
 			next;

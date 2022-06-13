@@ -9620,7 +9620,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	int undead_flag, tick_time = 0;
 	bool sc_isnew = true;
 	std::shared_ptr<s_status_change_db> scdb = status_db.find(type);
-	std::vector <int> vals;
+	std::vector <boss_info> boss_info;
 
 	nullpo_ret(bl);
 	sc = status_get_sc(bl);
@@ -10632,11 +10632,11 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 				}
 				val1 = boss_md.at(0)->bl.id; //
 
-				vals.resize(boss_md.size());
+				boss_info.resize(boss_md.size());
 				
 				for (int i = 0; i < boss_md.size(); i++) {
 					
-					vals.at(i) = boss_md.at(i)->bl.id;
+					boss_info.at(i).mob_id = boss_md.at(i)->bl.id;
 				}
 
 				tick_time = 1000; // [GodLesZ] tick time
@@ -12552,8 +12552,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	sce->val2 = val2;
 	sce->val3 = val3;
 	sce->val4 = val4;
-	sce->vals = vals;
-	sce->flags.resize(vals.size());
+	sce->boss_info = boss_info;
 	if (tick >= 0)
 		sce->timer = add_timer(gettick() + tick, status_change_timer, bl->id, type);
 	else
@@ -12619,8 +12618,8 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 		//	break;
 		case SC_BOSSMAPINFO:
 			if (sd) {
-				for (int i = 0; i < sce->vals.size(); i++) {
-					clif_bossmapinfo(sd, map_id2boss(sce->vals.at(i)), BOSS_INFO_ALIVE_WITHMSG); // First Message
+				for (int i = 0; i < sce->boss_info.size(); i++) {
+					clif_bossmapinfo(sd, map_id2boss(sce->boss_info.at(i).mob_id), BOSS_INFO_ALIVE_WITHMSG); // First Message
 				}
 			}
 			break;
@@ -13765,26 +13764,31 @@ TIMER_FUNC(status_change_timer){
 	case SC_BOSSMAPINFO:
 		if (sd && --(sce->val4) >= 0) {
 
-			std::vector <mob_data*> boss_md = map_id2bosses(sce->vals);
+			if (sce->boss_info.size() > 0) {
 
-			if (boss_md.size() > 0) {
+				std::vector <int> mob_ids;
+				mob_ids.resize(sce->boss_info.size());
 
+				for (int i = 0; i < sce->boss_info.size(); i++) {
+					mob_ids.at(i) = sce->boss_info.at(i).mob_id;
+				}
+
+				std::vector <mob_data*> boss_md = map_id2bosses(mob_ids);
 				//Sorting alive boss go last if boss > 1
 				if (boss_md.size() > 1 && boss_md.at(boss_md.size()-1)->bl.prev == NULL)
 				{
 					std::reverse(boss_md.begin(), boss_md.end());
-					std::reverse(sce->flags.begin(), sce->flags.end());
 				}
 				for (int i = 0; i < boss_md.size(); i++) {
 					if (sd->bl.m != boss_md.at(i)->bl.m) // Not on same map anymore
 						return 0;
 					else if (boss_md.at(i)->bl.prev != NULL) { // Boss is alive - Update X, Y on minimap
-						sce->flags.at(i) = 0;
+						sce->boss_info.at(i).dead_flag = 0;
 						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_ALIVE);
 					}
-					else if (boss_md.at(i)->spawn_timer != INVALID_TIMER && !sce->flags.at(i)) { // Boss is dead
+					else if (boss_md.at(i)->spawn_timer != INVALID_TIMER && !sce->boss_info.at(i).dead_flag) { // Boss is dead
 						//sce->val2 = 1;
-						sce->flags.at(i) = 1;
+						sce->boss_info.at(i).dead_flag = 1;
 						clif_bossmapinfo(sd, boss_md.at(i), BOSS_INFO_DEAD);
 					}
 				}
