@@ -1,5 +1,6 @@
-<img src="doc/logo.png" align="right" height="90" />
+[<img src="https://64.media.tumblr.com/ef9a3c3ae97e2cb47b8120aa712dfa65/tumblr_inline_mwkm8w4B1G1rxzg7g.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=EFV4JT97G462S&lc=GB&button_subtype=services&currency_code=USD&bn=PP%2dBuyNowBF%3atumblr_inline_mwkm8w4B1G1rxzg7g%2egif%3aNonHosted)
 
+<img src="doc/logo.png" align="right" height="90" />
 # rAthena
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/rathena/rathena.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/rathena/rathena/alerts/) [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/rathena/rathena.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/rathena/rathena/context:cpp) ![GitHub](https://img.shields.io/github/license/rathena/rathena.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/rathena/rathena.svg)
 > rAthena is a collaborative software development project revolving around the creation of a robust massively multiplayer online role playing game (MMORPG) server package. Written in C, the program is very versatile and provides NPCs, warps and modifications. The project is jointly managed by a group of volunteers located around the world as well as a tremendous community providing QA and support. rAthena is a continuation of the eAthena project.
