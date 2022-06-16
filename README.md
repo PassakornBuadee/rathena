@@ -1,10 +1,7 @@
 Donate me for new contents/custom features
 
-<img src="https://64.media.tumblr.com/ef9a3c3ae97e2cb47b8120aa712dfa65/tumblr_inline_mwkm8w4B1G1rxzg7g.gif">
-
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=EFV4JT97G462S&lc=GB&button_subtype=services&currency_code=USD&bn=PP%2dBuyNowBF%3atumblr_inline_mwkm8w4B1G1rxzg7g%2egif%3aNonHosted" rel="Donate Me">![DonateMe](https://64.media.tumblr.com/ef9a3c3ae97e2cb47b8120aa712dfa65/tumblr_inline_mwkm8w4B1G1rxzg7g.gif)</a>
 
-[Donate]()
 
 # Current contents/features a head from Official rAthena
 - (UpgradedSource) Convex Mirror Work with multiple bosses in one map :white_check_mark:
