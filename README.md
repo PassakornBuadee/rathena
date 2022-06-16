@@ -1,11 +1,12 @@
 Donate me for new contents/custom features
 
-[![DonateMe](https://64.media.tumblr.com/ef9a3c3ae97e2cb47b8120aa712dfa65/tumblr_inline_mwkm8w4B1G1rxzg7g.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=EFV4JT97G462S&lc=GB&button_subtype=services&currency_code=USD&bn=PP%2dBuyNowBF%3atumblr_inline_mwkm8w4B1G1rxzg7g%2egif%3aNonHosted/)
+[![DonateMe](https://raw.githubusercontent.com/aha999/DonateButtons/master/Paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=EFV4JT97G462S&lc=GB&button_subtype=services&currency_code=USD&bn=PP%2dBuyNowBF%3atumblr_inline_mwkm8w4B1G1rxzg7g%2egif%3aNonHosted/)
 
 # Current contents/features a head from Official rAthena
-- (UpgradedSource) Convex Mirror Work with multiple bosses in one map :white_check_mark:
+- Upgraded Source
+  - Convex Mirror Work with multiple bosses in one map :white_check_mark:
 - Instances
-  - Old Glast Heim (Hard Mode) :white_check_mark: (thanks to [ref](https://github.com/llchrisll/rAthena-Scripts))
+  - Old Glast Heim (Hard Mode) :white_check_mark: (thanks to [ref](https://github.com/llchrisll/rAthena-Scripts) without complete normal mode)
 - Level 175+ Contents [ref](https://hazyforest.com/lv175_exp_quests)
   - Magma Dungeon Floor 3 :white_check_mark:
   - Glast Heim Abyss :white_check_mark:
@@ -22,6 +23,7 @@ Donate me for new contents/custom features
 
 # You can look for implemented contents in "/import" folder of each categories (ie. db/npc/etc..) or compare "matao-ro" branch with official "master" branch
 # ***Note*** These will be removed if Official rAthena catch-up
+# This branch is normally merge with official branch to get issue fix commits and contents
 
 
 <img src="doc/logo.png" align="right" height="90" />
