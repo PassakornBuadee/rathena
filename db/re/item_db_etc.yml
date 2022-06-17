@@ -47293,6 +47293,9 @@ Body:
       DropEffect: CLIENT
     Script: |
       bonus bCritAtkRate,15;
+      if (BaseLevel>=200) {
+         bonus bCritAtkRate,15;
+      }
   - Id: 300279
     AegisName: aegis_300279
     Name: Book of Death Card
