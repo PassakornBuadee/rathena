@@ -3,16 +3,16 @@
 
 #include "int_pet.hpp"
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
-#include "../common/malloc.hpp"
-#include "../common/mmo.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
-#include "../common/sql.hpp"
-#include "../common/strlib.hpp"
-#include "../common/utils.hpp"
+#include <common/malloc.hpp>
+#include <common/mmo.hpp>
+#include <common/showmsg.hpp>
+#include <common/socket.hpp>
+#include <common/sql.hpp>
+#include <common/strlib.hpp>
+#include <common/utils.hpp>
 
 #include "char.hpp"
 #include "inter.hpp"

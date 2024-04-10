@@ -16,44 +16,47 @@
 #else
 	#include <termios.h>
 	#include <unistd.h>
-	#include <stdio.h>
+	#include <cstdio>
 #endif
 
 #include <yaml-cpp/yaml.h>
 #include <ryml_std.hpp>
 #include <ryml.hpp>
 
-#include "../common/cbasetypes.hpp"
-#include "../common/core.hpp"
-#include "../common/malloc.hpp"
-#include "../common/mmo.hpp"
-#include "../common/nullpo.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/strlib.hpp"
-#include "../common/utilities.hpp"
-#include "../common/utils.hpp"
+#include <common/cbasetypes.hpp>
+#include <common/core.hpp>
+#include <common/malloc.hpp>
+#include <common/mmo.hpp>
+#include <common/nullpo.hpp>
+#include <common/showmsg.hpp>
+#include <common/strlib.hpp>
+#include <common/utilities.hpp>
+#include <common/utils.hpp>
 #ifdef WIN32
-#include "../common/winapi.hpp"
+#include <common/winapi.hpp>
 #endif
 
 // Only for constants - do not use functions of it or linking will fail
-#include "../map/achievement.hpp"
-#include "../map/battle.hpp"
-#include "../map/battleground.hpp"
-#include "../map/channel.hpp"
-#include "../map/chat.hpp"
-#include "../map/date.hpp"
-#include "../map/instance.hpp"
-#include "../map/elemental.hpp"
-#include "../map/mercenary.hpp"
-#include "../map/mob.hpp"
-#include "../map/npc.hpp"
-#include "../map/pc.hpp"
-#include "../map/pet.hpp"
-#include "../map/quest.hpp"
-#include "../map/script.hpp"
-#include "../map/skill.hpp"
-#include "../map/storage.hpp"
+#define ONLY_CONSTANTS
+#include <map/achievement.hpp>
+#include <map/battle.hpp>
+#include <map/battleground.hpp>
+#include <map/cashshop.hpp>
+#include <map/channel.hpp>
+#include <map/chat.hpp>
+#include <map/date.hpp>
+#include <map/elemental.hpp>
+#include <map/homunculus.hpp>
+#include <map/instance.hpp>
+#include <map/mercenary.hpp>
+#include <map/mob.hpp>
+#include <map/npc.hpp>
+#include <map/pc.hpp>
+#include <map/pet.hpp>
+#include <map/quest.hpp>
+#include <map/script.hpp>
+#include <map/skill.hpp>
+#include <map/storage.hpp>
 
 using namespace rathena;
 
@@ -590,7 +593,7 @@ void ItemDatabase::loadingFinished() {
 
 ItemDatabase item_db;
 
-static bool parse_mob_constants_txt(char *split[], int columns, int current) {
+static bool parse_mob_constants_txt( char *split[], size_t columns, size_t current ){
 	uint16 mob_id = atoi(split[0]);
 	char *name = trim(split[1]);
 
@@ -599,7 +602,7 @@ static bool parse_mob_constants_txt(char *split[], int columns, int current) {
 	return true;
 }
 
-static bool parse_skill_constants_txt(char *split[], int columns, int current) {
+static bool parse_skill_constants_txt( char *split[], size_t columns, size_t current ){
 	uint16 skill_id = atoi(split[0]);
 	char *name = trim(split[16]);
 

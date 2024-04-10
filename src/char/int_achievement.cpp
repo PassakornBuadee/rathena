@@ -3,17 +3,17 @@
 
 #include "int_achievement.hpp"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 
-#include "../common/db.hpp"
-#include "../common/malloc.hpp"
-#include "../common/mmo.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
-#include "../common/sql.hpp"
-#include "../common/strlib.hpp"
+#include <common/db.hpp>
+#include <common/malloc.hpp>
+#include <common/mmo.hpp>
+#include <common/showmsg.hpp>
+#include <common/socket.hpp>
+#include <common/sql.hpp>
+#include <common/strlib.hpp>
 
 #include "char.hpp"
 #include "inter.hpp"

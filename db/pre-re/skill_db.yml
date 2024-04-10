@@ -4408,7 +4408,6 @@ Body:
     TargetType: Ground
     DamageFlags:
       Splash: true
-      IgnoreFlee: true
     Flags:
       IsTrap: true
       AlterRangeResearchTrap: true
@@ -5806,8 +5805,8 @@ Body:
   - Id: 192
     Name: NPC_MAGICALATTACK
     Description: Demon Shock Attack
-    MaxLevel: 10
-    Type: Weapon
+    MaxLevel: 1
+    Type: Magic
     TargetType: Attack
     Flags:
       IsNpc: true
@@ -5913,34 +5912,13 @@ Body:
     Name: NPC_KEEPING
     Description: Keeping
     MaxLevel: 1
-    Type: Weapon
     TargetType: Self
     DamageFlags:
       NoDamage: true
     Flags:
       IsNpc: true
     HitCount: 1
-    Duration1:
-      - Level: 1
-        Time: 60000
-      - Level: 2
-        Time: 70000
-      - Level: 3
-        Time: 80000
-      - Level: 4
-        Time: 90000
-      - Level: 5
-        Time: 100000
-      - Level: 6
-        Time: 110000
-      - Level: 7
-        Time: 120000
-      - Level: 8
-        Time: 130000
-      - Level: 9
-        Time: 140000
-      - Level: 10
-        Time: 150000
+    Duration1: 30000
     Status: Keeping
   - Id: 202
     Name: NPC_DARKBREATH
@@ -5980,60 +5958,19 @@ Body:
     Flags:
       IsNpc: true
     HitCount: 1
-    Duration1:
-      - Level: 1
-        Time: 60000
-      - Level: 2
-        Time: 70000
-      - Level: 3
-        Time: 80000
-      - Level: 4
-        Time: 90000
-      - Level: 5
-        Time: 100000
-      - Level: 6
-        Time: 110000
-      - Level: 7
-        Time: 120000
-      - Level: 8
-        Time: 130000
-      - Level: 9
-        Time: 140000
-      - Level: 10
-        Time: 150000
+    Duration1: 15000
     Status: Barrier
   - Id: 205
     Name: NPC_DEFENDER
     Description: Defender
     MaxLevel: 1
-    Type: Weapon
     TargetType: Self
     DamageFlags:
       NoDamage: true
     Flags:
       IsNpc: true
     HitCount: 1
-    Duration1:
-      - Level: 1
-        Time: 60000
-      - Level: 2
-        Time: 70000
-      - Level: 3
-        Time: 80000
-      - Level: 4
-        Time: 90000
-      - Level: 5
-        Time: 100000
-      - Level: 6
-        Time: 110000
-      - Level: 7
-        Time: 120000
-      - Level: 8
-        Time: 130000
-      - Level: 9
-        Time: 140000
-      - Level: 10
-        Time: 150000
+    Duration1: 15000
     Status: Armor
   - Id: 206
     Name: NPC_LICK
@@ -6461,6 +6398,7 @@ Body:
     TargetType: Attack
     DamageFlags:
       IgnoreAtkCard: true
+      IgnoreDefense: true
       IgnoreFlee: true
     Flags:
       IgnoreAutoGuard: true
@@ -8272,7 +8210,7 @@ Body:
     Hit: Single
     HitCount: 1
     Duration1: 60000
-    Duration2: 15000
+    Duration2: 30000
     Requires:
       SpCost: 20
       Weapon:
@@ -8281,7 +8219,7 @@ Body:
     Unit:
       Id: Lullaby
       Layout: 4
-      Interval: 6000
+      Interval: 4000
       Target: Enemy
       Flag:
         Ensemble: true
@@ -9325,15 +9263,13 @@ Body:
     Name: NPC_WEAPONBRAKER
     Description: Break weapon
     MaxLevel: 10
-    Type: Weapon
-    TargetType: Attack
+    TargetType: Self
     Flags:
       IsNpc: true
-    Range: 9
     Hit: Single
     HitCount: 1
-    Element: Weapon
-    Status: BrokenWeapon
+    Duration: 30000
+    Status: WeaponBreaker
   - Id: 344
     Name: NPC_ARMORBRAKE
     Description: Break armor
@@ -9400,8 +9336,7 @@ Body:
   - Id: 349
     Name: NPC_POWERUP
     Description: Power Up
-    MaxLevel: 10
-    Type: Weapon
+    MaxLevel: 5
     TargetType: Self
     DamageFlags:
       NoDamage: true
@@ -9423,7 +9358,7 @@ Body:
   - Id: 350
     Name: NPC_AGIUP
     Description: Agility UP
-    MaxLevel: 10
+    MaxLevel: 5
     TargetType: Self
     DamageFlags:
       NoDamage: true
@@ -9643,7 +9578,7 @@ Body:
     Hit: Single
     HitCount: 1
     Duration1: 300000
-    Duration2: 15000
+    Duration2: 10000
     Requires:
       SpCost: 200
     Status: Berserk
@@ -10235,17 +10170,7 @@ Body:
         Time: 55000
       - Level: 5
         Time: 60000
-    Duration2:
-      - Level: 1
-        Time: 20000
-      - Level: 2
-        Time: 30000
-      - Level: 3
-        Time: 40000
-      - Level: 4
-        Time: 50000
-      - Level: 5
-        Time: 60000
+    Duration2: 60000
     Requires:
       SpCost:
         - Level: 1
@@ -13868,8 +13793,6 @@ Body:
     Description: Chain Action
     MaxLevel: 10
     Type: Weapon
-    DamageFlags:
-      Critical: true
     Range: -9
     Hit: Multi_Hit
     HitCount: 2
@@ -32350,6 +32273,7 @@ Body:
         - Level: 10
           Amount: 16
       SpCost: 30
+    Status: Sub_Weaponproperty
   - Id: 8203
     Name: MS_BOWLINGBASH
     Description: Bowling_Bash
@@ -32422,6 +32346,7 @@ Body:
         Time: 60000
     Requires:
       SpCost: 50
+    Status: Parrying
   - Id: 8205
     Name: MS_REFLECTSHIELD
     Description: Shield_Reflect
@@ -32455,6 +32380,7 @@ Body:
           Amount: 75
         - Level: 10
           Amount: 80
+    Status: ReflectShield
   - Id: 8206
     Name: MS_BERSERK
     Description: Frenzy
@@ -32466,9 +32392,10 @@ Body:
     Hit: Single
     HitCount: 1
     Duration1: 300000
-    Duration2: 15000
+    Duration2: 10000
     Requires:
-      SpCost: 100
+      SpCost: 200
+    Status: Berserk
   - Id: 8207
     Name: MA_DOUBLE
     Description: Double_Strafe
@@ -32597,6 +32524,7 @@ Body:
       Flag:
         NoReiteration: true
         NoFootSet: true
+    Status: Stun
   - Id: 8211
     Name: MA_SANDMAN
     Description: Sandman
@@ -32636,6 +32564,7 @@ Body:
       Flag:
         NoReiteration: true
         NoFootSet: true
+    Status: Sleep
   - Id: 8212
     Name: MA_FREEZINGTRAP
     Description: Freezing_Trap
@@ -32644,7 +32573,6 @@ Body:
     TargetType: Ground
     DamageFlags:
       Splash: true
-      IgnoreFlee: true
     Flags:
       IsTrap: true
       AlterRangeResearchTrap: true
@@ -32687,6 +32615,7 @@ Body:
       Flag:
         NoReiteration: true
         NoFootSet: true
+    Status: Freeze
   - Id: 8213
     Name: MA_REMOVETRAP
     Description: Remove_Trap
@@ -32853,6 +32782,7 @@ Body:
           Amount: 27
         - Level: 5
           Amount: 30
+    Status: Stop
   - Id: 8219
     Name: ML_DEFENDER
     Description: Defending_Aura
@@ -32870,6 +32800,7 @@ Body:
     Requires:
       SpCost: 30
       State: Shield
+    Status: Defender
   - Id: 8220
     Name: ML_AUTOGUARD
     Description: Guard
@@ -32905,6 +32836,7 @@ Body:
           Amount: 28
         - Level: 10
           Amount: 30
+    Status: AutoGuard
   - Id: 8221
     Name: ML_DEVOTION
     Description: Sacrifice
@@ -32947,6 +32879,7 @@ Body:
       IgnoreItemBonus: true
     Requires:
       SpCost: 25
+    Status: Devotion
   - Id: 8222
     Name: MER_MAGNIFICAT
     Description: Magnificat
@@ -33059,9 +32992,10 @@ Body:
     Type: Weapon
     TargetType: Attack
     Range: 1
-    Hit: Multi_Hit
-    HitCount: 3
+    Hit: Single
+    HitCount: 1
     Element: Weapon
+    CastCancel: true
     CastTime: 1000
     AfterCastActDelay: 2000
     Duration2: 5000

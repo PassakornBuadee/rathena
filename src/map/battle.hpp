@@ -6,15 +6,15 @@
 
 #include <bitset>
 
-#include "../common/cbasetypes.hpp"
-#include "../common/mmo.hpp"
-#include "../config/core.hpp"
+#include <common/cbasetypes.hpp>
+#include <common/mmo.hpp>
+#include <config/core.hpp>
 
 #include "map.hpp" //ELE_MAX
 #include "skill.hpp"
 
 //fwd declaration
-struct map_session_data;
+class map_session_data;
 struct mob_data;
 struct block_list;
 enum e_damage_type : uint8;
@@ -28,6 +28,16 @@ enum damage_lv : uint8 {
 	ATK_MISS,    /// Attack missed because of element/race modifier.
 	ATK_BLOCK,   /// Attack was blocked by some skills.
 	ATK_DEF      /// Attack connected
+};
+
+/// Flag for base damage calculation
+enum e_base_damage_flag : uint16 {
+	BDMG_NONE	= 0x0000, /// None
+	BDMG_CRIT	= 0x0001, /// Critical hit damage
+	BDMG_ARROW  = 0x0002, /// Add arrow attack and use ranged damage formula
+	BDMG_MAGIC  = 0x0004, /// Use MATK for base damage (e.g. Magic Crasher)
+	BDMG_NOSIZE = 0x0008, /// Skip target size adjustment (e.g. Weapon Perfection)
+	BDMG_THROW  = 0x0010, /// Arrow attack should use melee damage formula (e.g., shuriken, kunai and venom knives)
 };
 
 /// Flag of the final calculation
@@ -72,10 +82,11 @@ enum e_battle_check_target : uint32 {
 /// Damage structure
 struct Damage {
 #ifdef RENEWAL
-	int64 statusAtk, statusAtk2, weaponAtk, weaponAtk2, equipAtk, equipAtk2, masteryAtk, masteryAtk2;
+	int64 statusAtk, statusAtk2, weaponAtk, weaponAtk2, equipAtk, equipAtk2, masteryAtk, masteryAtk2, percentAtk, percentAtk2;
 #endif
 	int64 damage, /// Right hand damage
-		damage2; /// Left hand damage
+		damage2, /// Left hand damage
+		basedamage; /// Right hand damage that a normal attack would deal
 	enum e_damage_type type; /// Check clif_damage for type
 	short div_; /// Number of hit
 	int amotion,
@@ -93,20 +104,21 @@ struct Damage battle_calc_attack(int attack_type,struct block_list *bl,struct bl
 
 int64 battle_calc_return_damage(struct block_list *bl, struct block_list *src, int64 *, int flag, uint16 skill_id, bool status_reflect);
 
-void battle_drain(struct map_session_data *sd, struct block_list *tbl, int64 rdamage, int64 ldamage, int race, int class_);
+void battle_drain(map_session_data *sd, struct block_list *tbl, int64 rdamage, int64 ldamage, int race, int class_);
 
-int64 battle_attr_fix(struct block_list *src, struct block_list *target, int64 damage,int atk_elem,int def_type, int def_lv);
+int64 battle_attr_fix(struct block_list* src, struct block_list* target, int64 damage, int atk_elem, int def_type, int def_lv, int flag = 0);
 int battle_calc_cardfix(int attack_type, struct block_list *src, struct block_list *target, std::bitset<NK_MAX> nk, int s_ele, int s_ele_, int64 damage, int left, int flag);
 
 // Final calculation Damage
 int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Damage *d,int64 damage,uint16 skill_id,uint16 skill_lv);
 int64 battle_calc_gvg_damage(struct block_list *src,struct block_list *bl,int64 damage,uint16 skill_id,int flag);
 int64 battle_calc_bg_damage(struct block_list *src,struct block_list *bl,int64 damage,uint16 skill_id,int flag);
+int64 battle_calc_pk_damage(block_list &src, block_list &bl, int64 damage, uint16 skill_id, int flag);
 
 void battle_damage(struct block_list *src, struct block_list *target, int64 damage, t_tick delay, uint16 skill_lv, uint16 skill_id, enum damage_lv dmg_lv, unsigned short attack_type, bool additional_effects, t_tick tick, bool spdamage);
 int battle_delay_damage (t_tick tick, int amotion, struct block_list *src, struct block_list *target, int attack_type, uint16 skill_id, uint16 skill_lv, int64 damage, enum damage_lv dmg_lv, t_tick ddelay, bool additional_effects, bool spdamage);
 
-int battle_calc_chorusbonus(struct map_session_data *sd);
+int battle_calc_chorusbonus(map_session_data *sd);
 
 // Summary normal attack treatment (basic attack)
 enum damage_lv battle_weapon_attack( struct block_list *bl,struct block_list *target,t_tick tick,int flag);
@@ -122,7 +134,7 @@ int battle_check_undead(int race,int element);
 int battle_check_target(struct block_list *src, struct block_list *target,int flag);
 bool battle_check_range(struct block_list *src,struct block_list *bl,int range);
 
-void battle_consume_ammo(struct map_session_data* sd, int skill, int lv);
+void battle_consume_ammo(map_session_data* sd, int skill, int lv);
 
 bool is_infinite_defense(struct block_list *target, int flag);
 
@@ -149,6 +161,7 @@ struct Battle_Config
 	int delay_dependon_dex, delay_dependon_agi;
 	int sdelay_attack_enable;
 	int left_cardfix_to_right;
+	int cardfix_monster_physical;
 	int skill_add_range;
 	int skill_out_range_consume;
 	int skill_amotion_leniency;
@@ -215,6 +228,7 @@ struct Battle_Config
 	int guild_exp_limit;
 	int guild_max_castles;
 	int guild_skill_relog_delay;
+	int guild_skill_relog_type;
 	int emergency_call;
 	int guild_aura;
 	int pc_invincible_time;
@@ -558,11 +572,13 @@ struct Battle_Config
 	int vip_exp_penalty_job;
 	int vip_disp_rate;
 	int mon_trans_disable_in_gvg;
-	int emblem_woe_change;
-	int emblem_transparency_limit;
 	int discount_item_point_shop;
 	int update_enemy_position;
 	int devotion_rdamage;
+	int feature_itemlink;
+	int feature_mesitemlink;
+	int feature_mesitemlink_brackets;
+	int feature_mesitemlink_dbname;
 
 	// autotrade persistency
 	int feature_autotrade;
@@ -613,6 +629,7 @@ struct Battle_Config
 	int homunculus_evo_intimacy_reset;
 	int monster_loot_search_type;
 	int feature_roulette;
+	int feature_roulette_bonus_reward;
 	int monster_hp_bars_info;
 	int min_body_style;
 	int max_body_style;
@@ -711,8 +728,23 @@ struct Battle_Config
 	int feature_barter;
 	int feature_barter_extended;
 	int break_mob_equip;
+	int macro_detection_retry;
+	int macro_detection_timeout;
+	int macro_detection_punishment;
+	int macro_detection_punishment_time;
 
-#include "../custom/battle_config_struct.inc"
+	int feature_dynamicnpc_timeout;
+	int feature_dynamicnpc_rangex;
+	int feature_dynamicnpc_rangey;
+	int feature_dynamicnpc_direction;
+
+	int mob_respawn_time;
+
+	int feature_stylist;
+	int feature_banking_state_enforce;
+	int instance_allow_reconnect;
+
+#include <custom/battle_config_struct.inc>
 };
 
 extern struct Battle_Config battle_config;

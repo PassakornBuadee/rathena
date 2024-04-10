@@ -3,16 +3,16 @@
 
 #include "mapreg.hpp"
 
-#include <stdlib.h>
+#include <cstdlib>
 
-#include "../common/cbasetypes.hpp"
-#include "../common/db.hpp"
-#include "../common/ers.hpp"
-#include "../common/malloc.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/sql.hpp"
-#include "../common/strlib.hpp"
-#include "../common/timer.hpp"
+#include <common/cbasetypes.hpp>
+#include <common/db.hpp>
+#include <common/ers.hpp>
+#include <common/malloc.hpp>
+#include <common/showmsg.hpp>
+#include <common/sql.hpp>
+#include <common/strlib.hpp>
+#include <common/timer.hpp>
 
 #include "map.hpp" // mmysql_handle
 #include "script.hpp"

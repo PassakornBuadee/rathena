@@ -3,14 +3,14 @@
 
 #include "int_elemental.hpp"
 
-#include <stdlib.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
-#include "../common/mmo.hpp"
-#include "../common/showmsg.hpp"
-#include "../common/socket.hpp"
-#include "../common/sql.hpp"
-#include "../common/strlib.hpp"
+#include <common/mmo.hpp>
+#include <common/showmsg.hpp>
+#include <common/socket.hpp>
+#include <common/sql.hpp>
+#include <common/strlib.hpp>
 
 #include "char.hpp"
 #include "inter.hpp"
